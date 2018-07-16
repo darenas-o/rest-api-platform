@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { Button, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import "../styles/Login.css";
 
@@ -24,6 +25,13 @@ export default class Login extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+    axios.post('http://172.16.81.41:3000/api/Users/login',{email: this.state.email, password:this.state.password})
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function(error) {
+                console.log(error);
+            })
   }
 
   render() {
@@ -51,8 +59,7 @@ export default class Login extends Component {
             block
             bsSize="large"
             disabled={!this.validateForm()}
-            type="submit"
-          >
+            type="submit">
             Login
           </Button>
         </form>

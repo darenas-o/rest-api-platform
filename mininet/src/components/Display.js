@@ -9,7 +9,7 @@ class Display extends Component{
     state = {services: []};
 
     getServices(){
-        axios.get('http://172.16.81.41:8086/api/services')
+        axios.get('http://172.16.81.41:3000/api/services')
             .then(res =>  {
                 console.log(res.data);
                 this.setState({ services: res.data })
