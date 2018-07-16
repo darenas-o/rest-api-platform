@@ -15,15 +15,17 @@ class Nav extends Component{
                 <Link to="/">Service</Link>
               </li>
               <li>
-                 <Link to="/unseal">Unseal</Link> 
+                 <Link to="/unseal">Unseal</Link>
               </li>
               <li>
-                 <Link to="/renew-token">Renew Token</Link> 
+                 <Link to="/renew-token">Renew Token</Link>
               </li>
             </ul>
             <ul className="nav navbar-nav navbar-right">
               <li>
-                <button className="btn btn-info log" >Log In</button> 
+                <button className="btn btn-info log" >
+                  <Link to="/login">Log In</Link>
+                </button>
               </li>
             </ul>
           </nav>

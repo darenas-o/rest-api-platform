@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Upload from './components/Upload';
 import Display from './components/Display';
-import Callback from './components/Callback';
+import RenewToken from './components/RenewToken';
+import Login from './components/Login'
 import registerServiceWorker from './registerServiceWorker';
 import { Router, Route, browserHistory } from 'react-router';
 //import { requireAuth } from './utils/AuthService';
@@ -13,8 +14,9 @@ const Root = () => {
         <div className="container">
             <Router history={browserHistory}>
                 <Route path="/" component={Display}/>
+                <Route path="/login" component={Login}/>
                 <Route path="/unseal" component={Upload}/>
-                <Route path="/callback" component={Callback} />
+                <Route path="/renew-token" component={RenewToken} />
             </Router>
         </div>
     )
