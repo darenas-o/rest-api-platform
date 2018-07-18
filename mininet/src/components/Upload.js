@@ -1,43 +1,43 @@
 import React, { Component } from 'react';
-//import { Link } from 'react-router';
 import Nav from './Nav';
-//import axios from 'axios';
-import { Form, FormControl, FormGroup, ControlLabel , Col  } from 'react-bootstrap';
+import axios from 'axios';
+import { Form, FormControl, FormGroup, ControlLabel , Col, Button  } from 'react-bootstrap';
 
-class Upload extends Component {
+export default class Upload extends Component {
 
-  state = {
-    key1: '',
-    key2: '',
-    key3: ''
-  };  
+  constructor(props) {
+    super(props);
 
-  /*
-  handleSumbmit = event => {
-    event.preventDedault();
-
-    const key1 = {
-      key1: this.state.key1
-    }
-
-    const key2 = {
-      key2: this.state.key2
-    }
-
-    const key3 = {
-      key3: this.state.key3
-    }
-  
-    axios.post('',{key1})
-      .then(res => {
-        console.log(res);
-        console.log(res.data);
-      })
-
+    this.state = {
+      key1: "",
+      key2: "",
+      key3: ""
+    };
   }
-*/
-  render() {
 
+  validateForm() {
+    return this.state.key1.length > 0 && this.state.key2.length > 0 && this.state.key3.length > 0;
+  }
+
+  handleChange = event => {
+    this.setState({
+      [event.target.id]: event.target.value
+    });
+  }
+
+  handleSubmit = event => {
+    event.preventDefault();
+    axios.put('http://172.16.81.41:3000/api/vault-service/unseal',{key1: this.state.key1, key2: this.state.key2, key3: this.state.key3})
+      .then(function (res)  {
+        console.log(res.data);
+        
+      })
+      .catch(function(error) {
+        console.log(error);
+      })
+  }
+
+  render() {
     return (
       <div>
         <Nav />
@@ -46,41 +46,57 @@ class Upload extends Component {
 
         <div className="col-sm-12">
           <div className="jumbotron text-center">
-            <Form horizontal>
-              <FormGroup controlId="formHorizontalEmail">
-                <Col componentClass={ControlLabel} sm={2}>
-                  Key1
-                </Col>
-                <Col sm={10}>
-                  <FormControl type="password" placeholder="key1" />
-                </Col>
-              </FormGroup>
-
-              <FormGroup controlId="formHorizontalPassword">
-                <Col componentClass={ControlLabel} sm={2}>
-                  Key2
-                </Col>
-                <Col sm={10}>
-                  <FormControl type="password" placeholder="Key2" />
-                </Col>
-              </FormGroup>
-
-              <FormGroup controlId="formHorizontalPassword">
-                <Col componentClass={ControlLabel} sm={2}>
-                  Key3
-                </Col>
-                <Col sm={10}>
-                  <FormControl type="password" placeholder="Key3" />
-                </Col>
-              </FormGroup>
-            
+            <Form horizontal onSubmit={this.handleSubmit}>
+                <FormGroup controlId="formHorizontalkey1" bsSize="large">
+                  <Col componentClass={ControlLabel} sm={2}>
+                    Key1
+                  </Col>
+                  <Col sm={10}>
+                    <FormControl 
+                      placeholder="key1"
+                      value={this.state.key1}
+                      onChange={this.handleChange}
+                      type="password"
+                    />
+                  </Col> 
+                </FormGroup>
+                <FormGroup controlId="formHorizontalkey2" bsSize="large">
+                  <Col componentClass={ControlLabel} sm={2}>
+                    Key2
+                  </Col>
+                  <Col sm={10}>
+                    <FormControl 
+                      placeholder="Key2" 
+                      value={this.state.key2}
+                      onChange={this.handleChange}
+                      type="password"  />
+                  </Col>
+                </FormGroup>
+                <FormGroup controlId="formHorizontalkey3" bsSize="large">
+                  <Col componentClass={ControlLabel} sm={2}>
+                    Key3
+                  </Col>
+                  <Col sm={10}>
+                    <FormControl 
+                      placeholder="Key3" 
+                      value={this.state.key3}
+                      onChange={this.handleChange}
+                      type="password"  />
+                  </Col>
+                </FormGroup>
+                <FormGroup>
+                  <Button 
+                    block
+                    bsSize="large"
+                    type="submit"
+                    className="btn btn-lg btn-info"> 
+                    Unseal Vault
+                  </Button>
+                </FormGroup>
             </Form>
-            <button className="btn btn-lg btn-info"> Unseal Vault</button>
           </div>
         </div>
       </div>
     );
   }
 }
-
-export default Upload;

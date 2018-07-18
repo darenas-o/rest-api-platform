@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Button, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
+import { Button, FormGroup, FormControl, Form, ControlLabel } from 'react-bootstrap';
 import "../styles/Login.css";
 
 export default class Login extends Component {
+
   constructor(props) {
     super(props);
 
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      redirect: false
     };
   }
 
@@ -27,7 +29,9 @@ export default class Login extends Component {
     event.preventDefault();
     axios.post('http://172.16.81.41:3000/api/Users/login',{email: this.state.email, password:this.state.password})
             .then(function (response) {
-                console.log(response);
+                console.log(response.data.id);
+                localStorage.setItem('Token', response.data.id);
+                alert("Logged in")
             })
             .catch(function(error) {
                 console.log(error);
@@ -37,7 +41,7 @@ export default class Login extends Component {
   render() {
     return (
       <div className="Login">
-        <form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit}>
           <FormGroup controlId="email" bsSize="large">
             <ControlLabel>Email</ControlLabel>
             <FormControl
@@ -62,7 +66,7 @@ export default class Login extends Component {
             type="submit">
             Login
           </Button>
-        </form>
+        </Form>
       </div>
     );
   }
